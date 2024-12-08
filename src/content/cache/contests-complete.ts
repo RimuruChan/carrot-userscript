@@ -86,7 +86,7 @@ function isMagicOn() {
     || now.getMonth() === 0 && now.getDate() <= 11;
 }
 
-const MAX_FINISHED_CONTESTS_TO_CACHE = 15;
+const MAX_FINISHED_CONTESTS_TO_CACHE = 5;
 
 const CONTESTS_COMPLETE = 'cache.contests_complete';
 const CONTESTS_COMPLETE_IDS = 'cache.contests_complete.ids';
@@ -180,7 +180,7 @@ export class ContestsComplete {
       contests.set(contestId, c);
       let contestIds = await this.getContestIds();
       contestIds.push(contestId);
-      if (contestIds.length > MAX_FINISHED_CONTESTS_TO_CACHE) {
+      while (contestIds.length > MAX_FINISHED_CONTESTS_TO_CACHE) {
         contests.delete(contestIds.shift()!);
       }
       if (isMagicOn()) {
